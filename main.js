@@ -1,160 +1,229 @@
-gsap.registerPlugin(ScrollTrigger);
+/* main.js */
+(() => {
+  const prefersReduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced) document.documentElement.classList.add("reduced");
 
-/* Loader robusto para logos: intenta varias rutas reales */
-function setImgWithFallback(imgEl, paths, label){
-  if (!imgEl) return;
+  // ===== Marquee (GSAP opcional, sin “corte”) =====
+  const track = document.getElementById("marqueeTrack");
+  const set = document.getElementById("marqueeSet");
+  let marqueeTween = null;
 
-  let i = 0;
-  const tryNext = () => {
-    if (i >= paths.length) {
-      console.warn(`[WW] No se pudo cargar ${label}. Probé:`, paths);
-      return;
-    }
-    imgEl.src = paths[i++];
-  };
+  function setupMarquee() {
+    if (!track || !set) return;
 
-  imgEl.addEventListener("error", () => {
-    tryNext();
-  });
+    [...track.querySelectorAll('[data-clone="1"]')].forEach((n) => n.remove());
 
-  tryNext();
-}
+    const clone = set.cloneNode(true);
+    clone.dataset.clone = "1";
+    track.appendChild(clone);
 
-const wordmark = document.getElementById("wordmark");
-const monogram = document.getElementById("monogram");
+    const setWidth = Math.ceil(set.getBoundingClientRect().width);
 
-/* Rutas reales según tu estructura actual */
-setImgWithFallback(
-  wordmark,
-  [
-    "./assets/ww-wordmark-white.svg",   // PRIORIDAD: este es el que quieres
-    "./assets/ww-wordmark.svg",
-    "./assets/logo/ww-wordmark-white.svg",
-    "./assets/logo/ww-wordmark.svg"
-  ],
-  "wordmark"
-);
+    if (marqueeTween) marqueeTween.kill();
+    track.style.transform = "translate3d(0,0,0)";
 
-setImgWithFallback(
-  monogram,
-  [
-    "./assets/ww-monogram.svg",
-    "./assets/logo/ww-monogram.svg"
-  ],
-  "monogram"
-);
+    if (prefersReduced || !window.gsap) return;
 
-/* Patrón usa el monograma como background. Si falla, no pasa nada */
-const pattern = document.querySelector(".pattern");
-if (pattern) pattern.style.backgroundImage = "url('./assets/ww-monogram.svg')";
+    const pxPerSecond = 70;
+    const duration = Math.max(10, setWidth / pxPerSecond);
 
-/* Scroll suave a anchors (para que no “brinque” raro con header fijo) */
-(function smoothAnchors(){
-  const header = document.querySelector(".top");
-  const headerH = () => (header ? header.offsetHeight : 0);
-
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener("click", (e) => {
-      const href = a.getAttribute("href");
-      if (!href || href === "#") return;
-      const target = document.querySelector(href);
-      if (!target) return;
-
-      e.preventDefault();
-
-      const y = window.scrollY + target.getBoundingClientRect().top - (headerH() + 18);
-      window.scrollTo({ top: Math.max(0, y), behavior: prefersReduced ? "auto" : "smooth" });
-    });
-  });
-})();
-
-/* Motion off */
-if (prefersReduced) {
-  document.documentElement.classList.add("reduced");
-} else {
-
-  /* Entrada */
-  gsap.set(".lockup", { opacity:0, y:14, filter:"blur(10px)" });
-  gsap.set(".top", { y:-10, opacity:0 });
-
-  const chips = gsap.utils.toArray(".chip");
-  gsap.set(chips, { opacity:0, y:10 });
-
-  gsap.timeline({ defaults:{ ease:"power2.out" } })
-    .to(".top", { y:0, opacity:1, duration:0.7 })
-    .to(".lockup", { opacity:1, y:0, filter:"blur(0px)", duration:0.9 }, 0.05)
-    .to(chips, { opacity:1, y:0, duration:0.6, stagger:0.05 }, 0.35);
-
-  /* Scroll reveals */
-  const revealEls = gsap.utils.toArray(".bio, .contact-card, .contact-photo");
-  revealEls.forEach((el) => {
-    gsap.set(el, { opacity:0, y:14, willChange:"transform,opacity" });
-
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top 84%",
-      once: true,
-      onEnter: () => gsap.to(el, { opacity:1, y:0, duration:0.8, ease:"power2.out" })
-    });
-  });
-
-  /* Footerline: Concepts / Strategy / Systems */
-  const footerLine = document.querySelector(".footerline");
-  if (footerLine) {
-    const items = Array.from(footerLine.children);
-    gsap.set(items, { opacity:0, y:8 });
-
-    ScrollTrigger.create({
-      trigger: footerLine,
-      start: "top 88%",
-      once: true,
-      onEnter: () => gsap.to(items, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power2.out"
-      })
+    marqueeTween = gsap.to(track, {
+      x: -setWidth,
+      duration,
+      ease: "none",
+      repeat: -1,
+      force3D: true,
     });
   }
 
-  /* Hero disuelve elegante al scrollear: no destruye, refina */
-  ScrollTrigger.create({
-    trigger: "#p-hero",
-    start: "top top",
-    end: "bottom top",
-    scrub: true,
-    onUpdate: (self) => {
-      const t = self.progress;
-
-      gsap.to(".lockup", {
-        opacity: Math.max(0, 1 - (t * 1.25)),
-        y: -t * 22,
-        filter: `blur(${t * 9}px)`,
-        duration: 0
-      });
-
-      gsap.to(".pattern", {
-        opacity: 0.07 + (t * 0.06),
-        duration: 0
-      });
-
-      gsap.to(".paper", {
-        filter: `contrast(${1 + t * 0.05})`,
-        duration: 0
-      });
-    }
+  window.addEventListener("load", setupMarquee);
+  window.addEventListener("resize", () => {
+    clearTimeout(window.__wwMarqueeResize);
+    window.__wwMarqueeResize = setTimeout(setupMarquee, 120);
   });
 
-  /* Micro: hover en chips (sutil, no gimmick) */
-  chips.forEach((c) => {
-    c.addEventListener("mouseenter", () => {
-      gsap.to(c, { y:-2, duration:0.18, ease:"power2.out" });
+  // ===== Contacto: email rápido + copiar + email con contexto =====
+  const TO_EMAIL = "alexwatsonrinc@gmail.com";
+
+  const quickEmail = document.getElementById("wwEmailQuick");
+  const copyBtn = document.getElementById("wwCopyEmailBtn");
+  const noteEl = document.getElementById("wwNote");
+  const form = document.getElementById("wwInquiry");
+
+  function setNote(msg) {
+    if (!noteEl) return;
+    noteEl.textContent = msg || "";
+  }
+
+  function encodeMailto(subject, body) {
+    const params = new URLSearchParams();
+    if (subject) params.set("subject", subject);
+    if (body) params.set("body", body);
+    return `mailto:${TO_EMAIL}?${params.toString()}`;
+  }
+
+  // Plantilla mínima (botón principal)
+  const baseSubject = "Watson & Watson — Consulta";
+  const baseBody =
+    "Hola Watson & Watson,\n\n" +
+    "Estoy buscando apoyo con:\n\n" +
+    "Objetivo:\n\n" +
+    "Contexto (opcional):\n\n" +
+    "Gracias,\n";
+
+  if (quickEmail) {
+    quickEmail.setAttribute("href", encodeMailto(baseSubject, baseBody));
+  }
+
+  // Copiar email
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(TO_EMAIL);
+        setNote("Email copiado.");
+        setTimeout(() => setNote(""), 1600);
+      } catch (e) {
+        setNote("No se pudo copiar. Selecciónalo manualmente abajo.");
+        setTimeout(() => setNote(""), 2400);
+      }
     });
-    c.addEventListener("mouseleave", () => {
-      gsap.to(c, { y:0, duration:0.18, ease:"power2.out" });
+  }
+
+  // Submit: arma correo con contexto
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const fd = new FormData(form);
+
+      const name = (fd.get("name") || "").toString().trim();
+      const replyTo = (fd.get("replyTo") || "").toString().trim();
+      const company = (fd.get("company") || "").toString().trim();
+      const industry = (fd.get("industry") || "").toString().trim();
+      const inquiryType = (fd.get("inquiryType") || "").toString().trim();
+      const description = (fd.get("description") || "").toString().trim();
+
+      const services = fd
+        .getAll("services")
+        .map((s) => s.toString().trim())
+        .filter(Boolean);
+
+      const subjectParts = ["Watson & Watson — Consulta"];
+      if (inquiryType) subjectParts.push(inquiryType);
+      if (industry) subjectParts.push(industry);
+      const subject = subjectParts.join(" · ");
+
+      const lines = [];
+      lines.push("Hola Watson & Watson,");
+      lines.push("");
+      lines.push("Estoy buscando apoyo con:");
+      if (inquiryType) lines.push(`Tipo: ${inquiryType}`);
+      if (industry) lines.push(`Industria: ${industry}`);
+      if (services.length) lines.push(`Servicios: ${services.join(", ")}`);
+      lines.push("");
+      lines.push("Objetivo:");
+      lines.push(description || "");
+      lines.push("");
+      lines.push("Contexto (opcional):");
+      if (company) lines.push(`Empresa: ${company}`);
+      if (name) lines.push(`Nombre: ${name}`);
+      if (replyTo) lines.push(`Email: ${replyTo}`);
+      lines.push("");
+      lines.push("Gracias,");
+
+      const body = lines.join("\n");
+
+      window.location.href = encodeMailto(subject, body);
     });
+  }
+})();
+
+/* main.js */
+(() => {
+  const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced) document.documentElement.classList.add("reduced");
+
+  const wordmarkImg = document.getElementById("wordmark");
+  const monogramImg = document.getElementById("monogram");
+
+  if (wordmarkImg && !wordmarkImg.getAttribute("src")) wordmarkImg.src = "assets/ww-wordmark-white.svg";
+  if (monogramImg && !monogramImg.getAttribute("src")) monogramImg.src = "assets/ww-monogram.svg";
+
+  // ===== Marquee seamless (GSAP, por px, sin “corte”) =====
+  const track = document.getElementById("marqueeTrack");
+  const set = document.getElementById("marqueeSet");
+  let marqueeTween = null;
+
+  function setupMarquee() {
+    if (!track || !set) return;
+
+    [...track.querySelectorAll('[data-clone="1"]')].forEach(n => n.remove());
+
+    const clone = set.cloneNode(true);
+    clone.dataset.clone = "1";
+    track.appendChild(clone);
+
+    const setWidth = Math.ceil(set.getBoundingClientRect().width);
+
+    if (marqueeTween) marqueeTween.kill();
+    track.style.transform = "translate3d(0,0,0)";
+
+    if (prefersReduced || !window.gsap) return;
+
+    const pxPerSecond = 70;
+    const duration = Math.max(10, setWidth / pxPerSecond);
+
+    marqueeTween = gsap.to(track, {
+      x: -setWidth,
+      duration,
+      ease: "none",
+      repeat: -1,
+      force3D: true
+    });
+  }
+
+  window.addEventListener("load", setupMarquee);
+  window.addEventListener("resize", () => {
+    clearTimeout(window.__wwMarqueeResize);
+    window.__wwMarqueeResize = setTimeout(setupMarquee, 120);
   });
-}
+
+  // ===== Section nav active + hero cue =====
+  const body = document.body;
+  const nav = document.querySelector(".section-nav");
+  const dots = nav ? [...nav.querySelectorAll(".section-dot")] : [];
+  const sections = ["p-hero","p-system","p-duo","p-contact"]
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  function setActive(id){
+    dots.forEach(a => {
+      const href = a.getAttribute("href") || "";
+      a.classList.toggle("is-active", href === `#${id}`);
+    });
+  }
+
+  // Observer para secciones
+  if ("IntersectionObserver" in window && sections.length){
+    const obs = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible && visible.target && visible.target.id){
+        setActive(visible.target.id);
+        body.classList.toggle("in-hero", visible.target.id === "p-hero");
+      }
+    }, { threshold:[0.18,0.35,0.55] });
+
+    sections.forEach(s => obs.observe(s));
+  } else {
+    // fallback básico
+    body.classList.add("in-hero");
+    setActive("p-hero");
+  }
+
+})();

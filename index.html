@@ -1,5 +1,7 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,67 +9,132 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-
   <header class="top" id="top">
     <div class="wrap top-inner">
       <div class="top-spacer" aria-hidden="true"></div>
 
       <a class="top-brand" href="#p-hero" aria-label="Watson & Watson">
-        <img id="wordmark" class="wordmark" alt="Watson & Watson" />
+        <img id="wordmark" class="wordmark" src="assets/ww-wordmark-white.svg" alt="Watson & Watson" />
       </a>
 
       <a class="top-cta" href="#p-contact">Contacto</a>
     </div>
   </header>
 
-  <main>
+  <!-- SECTION NAV (desktop rail + mobile bottom) -->
+  <nav class="section-nav" aria-label="Secciones">
+    <a class="section-dot" href="#p-hero"><span>Inicio</span></a>
+    <a class="section-dot" href="#p-system"><span>Cómo trabajamos</span></a>
+    <a class="section-dot" href="#p-duo"><span>Quiénes somos</span></a>
+    <a class="section-dot" href="#p-contact"><span>Contacto</span></a>
+  </nav>
 
-    <!-- HERO: papel + patrón -->
-    <section class="hero" id="p-hero">
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="p-hero" aria-label="Watson & Watson">
       <div class="paper" aria-hidden="true"></div>
       <div class="pattern" aria-hidden="true"></div>
 
       <div class="wrap hero-inner">
-        <div class="lockup">
-          <div class="monogram" aria-hidden="true">
-            <img id="monogram" alt="" />
+        <div class="hero-card">
+          <div class="hero-top">
+            <div class="monogram">
+              <img id="monogram" src="assets/ww-monogram.svg" alt="WW" />
+            </div>
+
+            <p class="kicker">Hospitality Strategy · Executive Communication</p>
+            <h1 class="headline">Estrategias comerciales para hospitalidad.</h1>
           </div>
 
-          <p class="kicker">Hospitality Strategy · Executive Communication</p>
-
-          <h1 class="headline">
-            Estrategia comercial para destinos y hospitalidad.
-            <span>Claridad ejecutiva para decidir con velocidad y criterio.</span>
-          </h1>
-
-          <div class="spec">
-            <div class="row">
-              <div class="k">Enfoque</div>
-              <div class="v">Destinos · Hoteles · Conceptos</div>
-            </div>
-            <div class="row">
-              <div class="k">Entregables</div>
-              <div class="v">Estrategia · Reportes · Decks</div>
-            </div>
-            <div class="row">
-              <div class="k">Uso</div>
-              <div class="v">Dirección · Inversión · Operación</div>
+          <!-- BANDA INFINITA -->
+          <div class="hero-marquee" aria-label="Áreas">
+            <div class="marquee-track" id="marqueeTrack" aria-hidden="true">
+              <span class="marquee-set" id="marqueeSet">
+                <span class="marquee-item">Hoteles</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Destinos</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Desarrolladores</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Operadores</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Marcas</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Restaurantes</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Experiencias</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Movilidad</span><span class="marquee-dot">·</span>
+                <span class="marquee-item">Identidad</span><span class="marquee-dot">·</span>
+              </span>
             </div>
           </div>
 
-          <div class="actions">
-            <a class="btn" href="#p-system">Ver sistema</a>
-            <a class="btn ghost" href="#p-contact">Conversemos</a>
-          </div>
+          <!-- DISPLAY EDITORIAL -->
+          <div class="hero-display" aria-label="Entregables y uso">
+            <div class="hero-col">
+              <p class="hero-col-k">Entregables</p>
 
+              <div class="hero-table">
+                <div class="hrow">
+                  <div class="hkey">01</div>
+                  <div class="hmain">Estrategia comercial</div>
+                  <div class="hsub">Prioridades, palancas, plan.</div>
+                </div>
+                <div class="hrow">
+                  <div class="hkey">02</div>
+                  <div class="hmain">Modelos de demanda</div>
+                  <div class="hsub">Lectura, escenarios, sizing.</div>
+                </div>
+                <div class="hrow">
+                  <div class="hkey">03</div>
+                  <div class="hmain">Reportes</div>
+                  <div class="hsub">Tendencia y criterio accionable.</div>
+                </div>
+                <div class="hrow">
+                  <div class="hkey">04</div>
+                  <div class="hmain">Decks ejecutivos</div>
+                  <div class="hsub">Listos para dirección e inversión.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-col">
+              <p class="hero-col-k">Uso</p>
+
+              <div class="hero-table">
+                <div class="hrow">
+                  <div class="hkey">A</div>
+                  <div class="hmain">Dirección</div>
+                  <div class="hsub">Decidir rápido con claridad.</div>
+                </div>
+                <div class="hrow">
+                  <div class="hkey">B</div>
+                  <div class="hmain">Inversión</div>
+                  <div class="hsub">Criterios y lógica de retorno.</div>
+                </div>
+                <div class="hrow">
+                  <div class="hkey">C</div>
+                  <div class="hmain">Operación</div>
+                  <div class="hsub">Alinear equipos y ejecución.</div>
+                </div>
+              </div>
+
+              <div class="actions hero-actions">
+                <a class="btn" href="#p-system">Cómo trabajamos</a>
+                <a class="btn ghost" href="#p-contact">Contacto</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- SCROLL CUE -->
+      <a class="scroll-cue" href="#p-system" aria-label="Bajar a Cómo trabajamos">
+        <span class="scroll-cue-mouse" aria-hidden="true"></span>
+        <span class="scroll-cue-text">Scroll</span>
+      </a>
     </section>
 
     <!-- SISTEMA -->
@@ -75,15 +142,19 @@
       <div class="wrap grid">
         <div>
           <p class="meta">Qué hacemos</p>
+
           <h2 class="big">
             Una marca no compite por volumen.
-            <span class="break">Compite por claridad.</span>
+            <span class="break">Compite por estrategia comercial bien diseñada.</span>
           </h2>
 
           <p class="para">
-            Watson & Watson entra cuando el proyecto necesita dirección real: lectura de mercado, lógica comercial,
-            criterios de inversión y comunicación ejecutiva lista para aprobar.
+            Watson & Watson entra cuando un hotel, un destino o un proyecto de hospitalidad necesita dirección real.
+            Diseñamos estrategia comercial basada en lectura de mercado, lógica de demanda y criterios de inversión,
+            con comunicación ejecutiva lista para decisión.
           </p>
+
+          <p class="para strongline">No ejecutamos ocurrencias.</p>
 
           <div class="chips" id="chips">
             <div class="chip">Estrategia comercial</div>
@@ -94,6 +165,8 @@
             <div class="chip">Decks ejecutivos</div>
             <div class="chip">Estándares de experiencia</div>
           </div>
+
+          <p class="note">Pensado para equipos que necesitan decidir bien antes de crecer rápido.</p>
         </div>
 
         <aside class="aside" aria-hidden="true">
@@ -118,75 +191,181 @@
       <div class="wrap duo-wrap">
         <p class="meta">Quiénes somos</p>
 
-        <h2 class="big">Dos disciplinas. Un estándar.</h2>
+        <h2 class="big">Dos disciplinas. Un solo criterio.</h2>
+
+        <p class="para duo-intro">
+          Integramos estrategia comercial y comunicación ejecutiva para que proyectos de hospitalidad decidan mejor y
+          avancen más rápido.
+        </p>
 
         <div class="duo">
           <article class="bio">
             <h3>Alejandro Watson</h3>
             <p class="role">Hospitality & Destination Strategy Advisor</p>
             <p class="desc">
-              Asesoría para destinos y proyectos hoteleros en estrategia comercial, demanda y posicionamiento,
-              con foco en rentabilidad y lectura real del mercado.
+              Asesoría estratégica para hoteles, destinos y desarrollos de hospitalidad en estrategia comercial, demanda
+              y posicionamiento competitivo.
             </p>
-            <div class="tag">Define qué hacer y por qué.</div>
+            <div class="tag">Define en qué crecer, cuándo y con qué lógica.</div>
           </article>
 
           <article class="bio">
             <h3>Rodrigo Watson</h3>
             <p class="role">Executive Communication & Decision Design</p>
             <p class="desc">
-              Comunicación visual ejecutiva para convertir complejidad en decks y reportes claros,
-              listos para dirección, inversión y operación.
+              Comunicación ejecutiva y visual para convertir complejidad en decks, reportes y narrativas claras, listas
+              para dirección, inversión y operación.
             </p>
             <div class="tag">Define cómo se entiende y se decide.</div>
           </article>
         </div>
+
+        <p class="para duo-close">Estrategia sin claridad no avanza. Claridad sin estrategia no escala.</p>
       </div>
     </section>
 
-    <!-- CONTACTO -->
-    <section class="panel contact" id="p-contact">
-      <div class="wrap contact-grid">
-        <div class="contact-card">
-          <p class="meta">Contacto</p>
+    <!-- INTERLUDIO SHERLOCK -->
+    <section class="panel sherlock-line" aria-label="Interludio">
+      <div class="wrap">
+        <p class="sherlock-copy">Perdón, Sherlock. Aquí decidimos.</p>
+      </div>
+    </section>
 
-          <h2 class="big contact-title">
-            Watson & Watson <span class="nowrap">por proyecto.</span>
-          </h2>
+    <!-- CONTACTO (postal) -->
+    <section class="contact" id="p-contact" aria-label="Contacto">
+      <div class="wrap contact-wrap">
+        <p class="meta meta-on">Contacto</p>
 
-          <p class="para">
-            Si el proyecto requiere criterio, dirección y ejecución premium, conversemos.
-          </p>
+        <div class="postal">
+          <img src="assets/hero-beach.png" alt="Padre e hijo caminando en la playa">
+        </div>
 
-          <div class="lines">
-            <div class="line">
-              <span class="k">Email</span>
-              <span class="v">
-                <a class="mail" href="mailto:alexwatsonrinc@gmail.com">alexwatsonrinc@gmail.com</a>
-              </span>
-            </div>
+        <a class="contact-brand" href="#top" aria-label="Watson & Watson">
+          <img class="contact-wordmark" src="assets/ww-monogram.svg" alt="Watson & Watson">
+        </a>
+
+        <h2 class="contact-prompt">¿Necesitas un Watson?</h2>
+        <p class="contact-subprompt">Cuéntanos tu caso. Nosotros lo ordenamos.</p>
+
+        <!-- ACCIONES (conversion first) -->
+        <div class="contact-actions" aria-label="Acciones de contacto">
+          <a class="btn" id="wwEmailQuick" href="mailto:alexwatsonrinc@gmail.com">Escribir por email</a>
+          <button class="btn ghost" type="button" id="wwCopyEmailBtn">Copiar email</button>
+          <p class="note ww-note" id="wwNote" aria-live="polite"></p>
+        </div>
+
+        <!-- CONTEXTO (opcional) -->
+        <details class="ww-details">
+          <summary class="ww-summary">Añadir contexto (opcional)</summary>
+
+          <div class="contact-filter">
+            <form id="wwInquiry" class="ww-form" autocomplete="on">
+              <div class="ww-grid">
+                <label class="ww-field">
+                  <span class="ww-label">Nombre</span>
+                  <input name="name" type="text" placeholder="Tu nombre">
+                </label>
+
+                <label class="ww-field">
+                  <span class="ww-label">Email</span>
+                  <input name="replyTo" type="email" placeholder="tu@correo.com">
+                </label>
+              </div>
+
+              <div class="ww-grid">
+                <label class="ww-field">
+                  <span class="ww-label">Empresa</span>
+                  <input name="company" type="text" placeholder="Empresa (opcional)">
+                </label>
+
+                <label class="ww-field">
+                  <span class="ww-label">Industria</span>
+                  <select name="industry">
+                    <option value="" selected>Selecciona industria</option>
+                    <option>Hoteles</option>
+                    <option>Destinos</option>
+                    <option>Desarrollos</option>
+                    <option>Restaurantes</option>
+                    <option>Experiencias</option>
+                    <option>Movilidad</option>
+                    <option>Otro</option>
+                  </select>
+                </label>
+              </div>
+
+              <label class="ww-field">
+                <span class="ww-label">Tipo de solicitud</span>
+                <select name="inquiryType">
+                  <option value="" selected>Selecciona tipo</option>
+                  <option>Estrategia comercial</option>
+                  <option>Diagnóstico de demanda</option>
+                  <option>Deck ejecutivo</option>
+                  <option>Brand system</option>
+                  <option>Consultoría</option>
+                  <option>Otro</option>
+                </select>
+              </label>
+
+              <fieldset class="ww-fieldset">
+                <legend class="ww-legend">Servicios</legend>
+
+                <div class="ww-checks">
+                  <label class="ww-check">
+                    <input type="checkbox" name="services" value="Estrategia comercial">
+                    Estrategia comercial
+                  </label>
+
+                  <label class="ww-check">
+                    <input type="checkbox" name="services" value="Modelos de demanda">
+                    Modelos de demanda
+                  </label>
+
+                  <label class="ww-check">
+                    <input type="checkbox" name="services" value="Reportes">
+                    Reportes
+                  </label>
+
+                  <label class="ww-check">
+                    <input type="checkbox" name="services" value="Decks ejecutivos">
+                    Decks ejecutivos
+                  </label>
+                </div>
+              </fieldset>
+
+              <label class="ww-field">
+                <span class="ww-label">Descripción</span>
+                <textarea name="description" rows="6"
+                  placeholder="Contexto, objetivos y lo que necesitas lograr"></textarea>
+              </label>
+
+              <div class="ww-actions">
+                <button type="submit" class="btn">Enviar con contexto</button>
+                <a class="btn ghost" href="mailto:alexwatsonrinc@gmail.com">Solo email</a>
+              </div>
+            </form>
           </div>
+        </details>
 
-          <div class="actions contact-actions">
-            <a class="btn" href="mailto:alexwatsonrinc@gmail.com">Escribir email</a>
-            <a class="btn ghost" href="#p-hero">Volver arriba</a>
+        <div class="contact-lines">
+          <div class="cline">
+            <div class="ck">Email</div>
+            <a class="cv" href="mailto:alexwatsonrinc@gmail.com">alexwatsonrinc@gmail.com</a>
           </div>
-
-          <div class="footerline" aria-label="Concepts Strategy Systems">
-            <span>Concepts</span>
-            <span>Strategy</span>
-            <span>Systems</span>
+          <div class="cline">
+            <div class="ck">Tel</div>
+            <a class="cv" href="tel:+525518155494">+52 55 1815 5494</a>
           </div>
         </div>
 
-        <div class="contact-photo" aria-hidden="true"></div>
+        <footer class="footerstack">
+          <span>Concepts</span><span>Strategy</span><span>Systems</span>
+        </footer>
       </div>
     </section>
-
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="main.js"></script>
 </body>
+
 </html>
